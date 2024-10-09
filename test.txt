@@ -1,0 +1,2 @@
+This is a line written by filewriter
+This is a line written by bufferedwriter
