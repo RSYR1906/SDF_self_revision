@@ -2,10 +2,13 @@
 
 ## HashMaps
 
-HashMap<String,Integer> Map = new HashMap<>()
+**HashMap<String,Integer> Map = new HashMap<>()**
 
 Common functions:
 
+- Map.put(new key, new value)
+- Map.replace(current key,new value)
 - Map.get(key)
-- Map.set(current key,new value)
-- Map.add(new key, new value)
+- Map.remove(key)
+- Map.putIfAbsent(key,value)
+- Map.containsKey(key)
