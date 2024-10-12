@@ -1,0 +1,21 @@
+
+ Details of freshmen 
+==================== 
+Name: Jack
+Major: History
+Club: Debate
+cGPA: 3.46
+
+ Details of freshmen 
+==================== 
+Name: Larry
+Major: Chemistry
+Club: Basketball
+cGPA: 3.78
+
+ Details of freshmen 
+==================== 
+Name: Thomas
+Major: Geography
+Club: Photography
+cGPA: 3.2

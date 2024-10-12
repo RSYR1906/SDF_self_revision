@@ -6,15 +6,15 @@ public class Main {
 
         Scanner scan = new Scanner(System.in);
 
-        System.out.println("What is your name? ");
+        System.out.printf("What is your name? ");
         String name = scan.next();
 
-        System.out.println("What is your age? ");
+        System.out.printf("What is your age? ");
         int age = scan.nextInt();
+        scan.nextLine();  //clear the buffer 
 
-        System.out.println("What is your quote? ");
-        String quote = scan.next();
-        quote += scan.nextLine();
+        System.out.printf("What is your quote? ");
+        String quote = scan.nextLine();
 
         System.out.println("\n Details of senior: \n Name: " + name + "\n Age: " + age + "\n quote: " + quote);
 
