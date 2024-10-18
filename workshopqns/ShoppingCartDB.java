@@ -35,7 +35,6 @@ public class ShoppingCartDB {
         while ((line = br.readLine()) != null) {
             cartList.add(line.trim());
         }
-
         br.close();
         return cartList;
     }
@@ -54,6 +53,7 @@ public class ShoppingCartDB {
         }
 
         System.out.println("Cart saved to " + userFile.getAbsolutePath());
+        bw.flush();
         bw.close();
     }
 

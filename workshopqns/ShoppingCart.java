@@ -50,7 +50,6 @@ public class ShoppingCart {
         try {
             cart = shoppingCartDB.loadCart(username);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         currentUser = username;
@@ -76,7 +75,7 @@ public class ShoppingCart {
             System.out.println("No users found");
         } else {
             for (String user : users) {
-                System.out.println(user + "\n");
+                System.out.println(user);
             }
         }
 
