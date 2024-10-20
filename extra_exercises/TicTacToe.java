@@ -1,3 +1,4 @@
+package extra_exercises;
 import java.util.Scanner;
 
 public class TicTacToe {
