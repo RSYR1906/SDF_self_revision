@@ -35,6 +35,8 @@ public class BaccaratServer {
             DataInputStream dis = new DataInputStream(bis);
 
             int betAmount = 0;
+            int playerCapital = 0;
+            boolean isLoggedIn = false;
 
             while (true) {
                 String message = dis.readUTF();
@@ -47,8 +49,10 @@ public class BaccaratServer {
 
                 String[] clientInput = message.split("\\|");
 
-                if (clientInput[0].equals("login")) {
+                if (clientInput[0].equals("login") && !isLoggedIn) {
                     File file = new File("db/" + clientInput[1] + ".db");
+                    playerCapital = Integer.parseInt(clientInput[2]);
+                    isLoggedIn = true;
 
                     if (file.exists()) {
                         System.out.println("User already exists.");
@@ -62,47 +66,61 @@ public class BaccaratServer {
                                 "Created Filename: " + clientInput[1] + ".db" + "with data: " + clientInput[2]);
                     }
                 }
-                if (clientInput[0].equals("bet")) {
-                    betAmount = Integer.parseInt(clientInput[1]);
-                }
+                while (playerCapital > 0) {
+                    System.out.println("You have $" + playerCapital + ". Place your bet!");
 
-                if (clientInput[0].equals("deal")) {
-                    // Read the "cards.db" file to load the shuffled deck of cards
-                    ArrayList<Double> cardDeck = BaccaratEngine.readCardsFromFile("cards.db");
-
-                    // Draw cards for player and banker
-                    List<Double> playerCards = BaccaratEngine.drawCards(cardDeck, 2); // Draw 2 cards for Player
-                    List<Double> bankerCards = BaccaratEngine.drawCards(cardDeck, 2); // Draw 2 cards for Banker
-
-                    // Calculate totals for player and banker
-                    int playerTotal = BaccaratEngine.calculateCardTotal(playerCards);
-                    int bankerTotal = BaccaratEngine.calculateCardTotal(bankerCards);
-
-                    // Determine the result
-                    String result = BaccaratEngine.determineWinner(playerTotal, bankerTotal);
-                    BaccaratEngine.saveResult(result);
-
-                    // Print the cards and totals
-                    System.out.println("Player's cards: " + playerCards);
-                    System.out.println("Banker's cards: " + bankerCards);
-                    System.out.println("Player's total: " + playerTotal);
-                    System.out.println("Banker's total: " + bankerTotal);
-                    System.out.println("Result: " + result);
-
-                    // Handle bet
-                    String betSide = clientInput[1]; // "P" for Player or "B" for Banker
-
-                    if (betSide.equals("P") && result.equals("P")) {
-                        System.out.println("You win: $" + betAmount);
-                    } else if (betSide.equals("B") && result.equals("B")) {
-                        System.out.println("You win: $" + betAmount);
-                    } else {
-                        System.out.println("You lose: $" + betAmount);
+                    if (clientInput[0].equals("bet")) {
+                        betAmount = Integer.parseInt(clientInput[1]);
                     }
+
+                    if (clientInput[0].equals("deal")) {
+                        // Read the "cards.db" file to load the shuffled deck of cards
+                        ArrayList<Double> cardDeck = BaccaratEngine.readCardsFromFile("cards.db");
+
+                        // Draw cards for player and banker
+                        List<Double> playerCards = BaccaratEngine.drawCards(cardDeck, 2); // Draw 2 cards for Player
+                        List<Double> bankerCards = BaccaratEngine.drawCards(cardDeck, 2); // Draw 2 cards for Banker
+
+                        // Calculate totals for player and banker
+                        int playerTotal = BaccaratEngine.calculateCardTotal(playerCards);
+                        int bankerTotal = BaccaratEngine.calculateCardTotal(bankerCards);
+
+                        // Determine the result
+                        String result = BaccaratEngine.determineWinner(playerTotal, bankerTotal);
+                        BaccaratEngine.saveResult(result);
+
+                        // Print the cards and totals
+                        System.out.println("Player's cards: " + playerCards);
+                        System.out.println("Banker's cards: " + bankerCards);
+                        System.out.println("Player's total: " + playerTotal);
+                        System.out.println("Banker's total: " + bankerTotal);
+                        System.out.println("Result: " + result);
+
+                        // Handle bet
+                        String betSide = clientInput[1]; // "P" for Player or "B" for Banker
+
+                        if (betSide.equals("P") && result.equals("P")) {
+                            playerCapital += betAmount;
+                            System.out.println("You win: $" + betAmount);
+                        } else if (betSide.equals("B") && result.equals("B")) {
+                            playerCapital += betAmount;
+                            System.out.println("You win: $" + betAmount);
+                        } else {
+                            playerCapital -= betAmount;
+                            System.out.println("You lose: $" + betAmount);
+                        }
+
+                        // If player has no capital left, end the game
+                        if (playerCapital <= 0) {
+                            System.out.println("You have no more capital. Game over.");
+                            conn.close();
+                            break;
+                        }
+                    }
+
                 }
-
             }
-        }
 
+        }
     }
 }
