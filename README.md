@@ -1,14 +1,16 @@
-# Self-revision of topics 1-4
+# Self-revision
 
-## HashMaps
+## Games
+**extra_exercises folder:**
+- Baccarat
+- GameOfLife
+- TicTacToe (Minimax algo)
 
-**HashMap<String,Integer> Map = new HashMap<>()**
 
-Common functions:
+## PYP qns
+**examqns folder:**
+- Googleplaystore csv
 
-- Map.put(new key, new value)
-- Map.replace(current key,new value)
-- Map.get(key)
-- Map.remove(key)
-- Map.putIfAbsent(key,value)
-- Map.containsKey(key)
+## Workshop Exercises
+**workshopqns folder:**
+- ShoppingCart
